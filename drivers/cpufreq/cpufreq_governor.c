@@ -424,9 +424,9 @@ int cpufreq_dbs_governor_init(struct cpufreq_policy *policy)
 	if (ret)
 		goto free_policy_dbs_info;
 
-	dbs_data->min_sampling_rate = max(dbs_data->min_sampling_rate,
+       /*	dbs_data->min_sampling_rate = max(dbs_data->min_sampling_rate,
 					  MIN_LATENCY_MULTIPLIER * latency);
-	dbs_data->sampling_rate = cpufreq_policy_transition_delay_us(policy);
+	dbs_data->sampling_rate = cpufreq_policy_transition_delay_us(policy); */
 
 	if (!have_governor_per_policy())
 		gov->gdbs_data = dbs_data;

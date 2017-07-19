@@ -380,14 +380,6 @@ static void sync_rcu_exp_select_cpus(struct rcu_state *rsp,
 			if (!(mask_ofl_ipi & mask))
 				continue;
 retry_ipi:
-<<<<<<< HEAD
-			if (rcu_dynticks_in_eqs_since(rdp->dynticks,
-						      rdp->dynticks_snap)) {
-				mask_ofl_test |= mask;
-				continue;
-			}
-=======
->>>>>>> fda345efbe19... Revert "BACKPORT: rcu: Ports some of  RCU's taken from k4.14"
 			ret = smp_call_function_single(cpu, func, rsp, 0);
 			if (!ret) {
 				mask_ofl_ipi &= ~mask;
