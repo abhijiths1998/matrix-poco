@@ -542,7 +542,8 @@ jump_label_module_notify(struct notifier_block *self, unsigned long val,
 	case MODULE_STATE_COMING:
 		jump_label_lock();
 		ret = jump_label_add_module(mod);
-		if (ret)
+		if (ret) {
+			WARN(1, "Failed to allocate memory: jump_label may not work properly.\n");
 			jump_label_del_module(mod);
 		jump_label_unlock();
 		break;
