@@ -406,7 +406,14 @@ static int __init cpu_input_boost_init(void)
 		goto unregister_handler;
 	}
 
-	/* Allow global boost config access for external boosts */
+	boost_thread = kthread_run_perf_critical(cpu_boost_thread, b,
+						 "cpu_boostd");
+	if (IS_ERR(boost_thread)) {
+		pr_err("Failed to start CPU boost thread, err: %ld\n",
+		       PTR_ERR(boost_thread));
+		goto unregister_drm_notif;
+	}
+
 	boost_drv_g = b;
 
 	return 0;
