@@ -6,3 +6,4 @@ obj-$(CONFIG_CRYPTO_DEV_OTA_CRYPTO) += ota_crypto.o
 obj-$(CONFIG_CRYPTO_DEV_QCOM_ICE) += ice.o
 
 CFLAGS_qcedev.o := $(call cc-option,-Wframe-larger-than=6144)
+CFLAGS_qce50.o := $(call cc-option,-Wno-error)
