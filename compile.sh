@@ -13,7 +13,7 @@ mkdir -p out
 make clean
 make mrproper
 
-make O=out ARCH=arm64 beryllium_defconfig
+make O=out ARCH=arm64 matrix_defconfig
 
 make -j$(nproc --all) O=out ARCH=arm64 \
                         CC="${CLANG_PATH}" \
