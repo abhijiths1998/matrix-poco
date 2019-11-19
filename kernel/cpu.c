@@ -1346,6 +1346,7 @@ void __weak arch_enable_nonboot_cpus_end(void)
 void enable_nonboot_cpus(void)
 {
 	int cpu, error;
+	struct device *cpu_device;
 
 	/* Allow everyone to use the CPU hotplug again */
 	cpu_maps_update_begin();
@@ -2329,13 +2330,22 @@ static int __init mitigations_parse_cmdline(char *arg)
 }
 early_param("mitigations", mitigations_parse_cmdline);
 
-	return cpu_mitigations == CPU_MITIGATIONS_OFF;
-}
-EXPORT_SYMBOL_GPL(cpu_mitigations_off);
+static ATOMIC_NOTIFIER_HEAD(idle_notifier);
 
-/* mitigations=auto,nosmt */
-bool cpu_mitigations_auto_nosmt(void)
+void idle_notifier_register(struct notifier_block *n)
 {
-	return cpu_mitigations == CPU_MITIGATIONS_AUTO_NOSMT;
+	atomic_notifier_chain_register(&idle_notifier, n);
 }
-EXPORT_SYMBOL_GPL(cpu_mitigations_auto_nosmt);
+EXPORT_SYMBOL_GPL(idle_notifier_register);
+
+void idle_notifier_unregister(struct notifier_block *n)
+{
+	atomic_notifier_chain_unregister(&idle_notifier, n);
+}
+EXPORT_SYMBOL_GPL(idle_notifier_unregister);
+
+void idle_notifier_call_chain(unsigned long val)
+{
+	atomic_notifier_call_chain(&idle_notifier, val, NULL);
+}
+EXPORT_SYMBOL_GPL(idle_notifier_call_chain);
