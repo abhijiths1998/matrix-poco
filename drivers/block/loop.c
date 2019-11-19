@@ -76,7 +76,6 @@
 #include <linux/miscdevice.h>
 #include <linux/falloc.h>
 #include <linux/uio.h>
-#include <linux/android_version.h>
 #include "loop.h"
 
 #include <asm/uaccess.h>
@@ -1603,8 +1602,8 @@ static int lo_compat_ioctl(struct block_device *bdev, fmode_t mode,
 		arg = (unsigned long) compat_ptr(arg);
 	case LOOP_SET_FD:
 	case LOOP_CHANGE_FD:
-	case LOOP_SET_BLOCK_SIZE:
 	case LOOP_SET_DIRECT_IO:
+	case LOOP_SET_BLOCK_SIZE:
 		err = lo_ioctl(bdev, mode, cmd, arg);
 		break;
 	default:
@@ -2078,7 +2077,7 @@ static int __init loop_init(void)
 		nr = max_loop;
 		range = max_loop << part_shift;
 	} else {
-		nr = (get_android_version() <= 9) ? 8 : 16;
+		nr = CONFIG_BLK_DEV_LOOP_MIN_COUNT;
 		range = 1UL << MINORBITS;
 	}
 
