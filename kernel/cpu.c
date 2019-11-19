@@ -1287,7 +1287,6 @@ void __weak arch_enable_nonboot_cpus_end(void)
 void enable_nonboot_cpus(void)
 {
 	int cpu, error;
-	struct device *cpu_device;
 
 	/* Allow everyone to use the CPU hotplug again */
 	cpu_maps_update_begin();
@@ -1305,12 +1304,6 @@ void enable_nonboot_cpus(void)
 		trace_suspend_resume(TPS("CPU_ON"), cpu, false);
 		if (!error) {
 			pr_info("CPU%d is up\n", cpu);
-			cpu_device = get_cpu_device(cpu);
-			if (!cpu_device)
-				pr_err("%s: failed to get cpu%d device\n",
-				       __func__, cpu);
-			else
-				kobject_uevent(&cpu_device->kobj, KOBJ_ONLINE);
 			continue;
 		}
 		pr_warn("Error taking CPU%d up: %d\n", cpu, error);
@@ -2273,6 +2266,7 @@ early_param("mitigations", mitigations_parse_cmdline);
 
 /* mitigations=off */
 bool cpu_mitigations_off(void)
+<<<<<<< HEAD
 {
 	return cpu_mitigations == CPU_MITIGATIONS_OFF;
 }
@@ -2294,13 +2288,16 @@ void idle_notifier_register(struct notifier_block *n)
 EXPORT_SYMBOL_GPL(idle_notifier_register);
 
 void idle_notifier_unregister(struct notifier_block *n)
+=======
+>>>>>>> parent of a5d4bebcb119... Revert "Merge tag 'v4.9.202' into staging/ten"
 {
-	atomic_notifier_chain_unregister(&idle_notifier, n);
+	return cpu_mitigations == CPU_MITIGATIONS_OFF;
 }
-EXPORT_SYMBOL_GPL(idle_notifier_unregister);
+EXPORT_SYMBOL_GPL(cpu_mitigations_off);
 
-void idle_notifier_call_chain(unsigned long val)
+/* mitigations=auto,nosmt */
+bool cpu_mitigations_auto_nosmt(void)
 {
-	atomic_notifier_call_chain(&idle_notifier, val, NULL);
+	return cpu_mitigations == CPU_MITIGATIONS_AUTO_NOSMT;
 }
-EXPORT_SYMBOL_GPL(idle_notifier_call_chain);
+EXPORT_SYMBOL_GPL(cpu_mitigations_auto_nosmt);
