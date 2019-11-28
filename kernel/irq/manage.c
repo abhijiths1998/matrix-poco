@@ -18,7 +18,6 @@
 #include <linux/sched.h>
 #include <linux/sched/rt.h>
 #include <linux/task_work.h>
-#include <linux/cpu.h>
 
 #include "internals.h"
 
