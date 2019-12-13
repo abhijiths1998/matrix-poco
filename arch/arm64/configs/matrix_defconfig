@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm64 4.9.202 Kernel Configuration
+# Linux/arm64 4.9.206 Kernel Configuration
 #
 CONFIG_ARM64=y
 CONFIG_64BIT=y
@@ -43,20 +43,9 @@ CONFIG_THREAD_INFO_IN_TASK=y
 # General setup
 #
 CONFIG_INIT_ENV_ARG_LIMIT=32
-CONFIG_CROSS_COMPILE=""
-# CONFIG_COMPILE_TEST is not set
-CONFIG_LOCALVERSION="-Matrix_v1.0-stable"
-#CONFIG_LOCALVERSION_AUTO is not set
-CONFIG_DEFAULT_HOSTNAME="(none)"
-CONFIG_SWAP=y
-# CONFIG_SYSVIPC is not set
-# CONFIG_POSIX_MQUEUE is not set
-CONFIG_CROSS_MEMORY_ATTACH=y
-# CONFIG_FHANDLE is not set
-# CONFIG_USELIB is not set
+CONFIG_LOCALVERSION="-Matrix_v1.0"
 CONFIG_AUDIT=y
 CONFIG_HAVE_ARCH_AUDITSYSCALL=y
-# CONFIG_AUDITSYSCALL is not set
 
 #
 # IRQ subsystem
