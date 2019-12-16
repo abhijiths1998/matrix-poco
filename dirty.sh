@@ -4,9 +4,9 @@ export ARCH=arm64
 export SUBARCH=arm64
 export KBUILD_BUILD_USER="abhijiths0098"
 export KBUILD_BUILD_HOST="matrix"
-GCC="/home/abhivarma362/disk/gcc64/bin/aarch64-maestro-linux-gnu-"
-GCC32="/home/abhivarma362/disk/gcc32/bin/arm-maestro-linux-gnueabi-"
-CLANG_PATH="/home/abhivarma362/disk/clang/bin/clang"
+GCC="/home/abhivarma362/gcc64/bin/aarch64-maestro-linux-gnu-"
+GCC32="/home/abhivarma362/gcc32/bin/arm-maestro-linux-gnueabi-"
+CLANG_PATH="/home/abhivarma362/clang/bin/clang"
 
 
 make O=out ARCH=arm64 matrix_defconfig

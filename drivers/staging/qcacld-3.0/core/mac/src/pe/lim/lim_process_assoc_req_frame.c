@@ -2588,10 +2588,6 @@ void lim_send_mlm_assoc_ind(tpAniSirGlobal mac_ctx,
 			assoc_ind->max_mcs_idx = maxidx;
 		}
 		fill_mlm_assoc_ind_vht(assoc_req, sta_ds, assoc_ind);
-		if (assoc_req->ExtCap.present)
-			assoc_ind->ecsa_capable =
-			((struct s_ext_cap *)assoc_req->ExtCap.bytes)->
-			ext_chan_switch;
 
 		/* updates VHT information in assoc indication */
 		 qdf_mem_copy(&assoc_ind->vht_caps, &assoc_req->VHTCaps,
