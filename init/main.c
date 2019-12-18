@@ -82,7 +82,6 @@
 #include <linux/io.h>
 #include <linux/kaiser.h>
 #include <linux/cache.h>
-#include <linux/scs.h>
 #include <linux/jump_label.h>
 
 #include <asm/io.h>
