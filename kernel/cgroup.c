@@ -5295,6 +5295,9 @@ static struct cgroup *cgroup_create(struct cgroup *parent)
 	cgrp->self.parent = &parent->self;
 	cgrp->root = root;
 	cgrp->level = level;
+	ret = cgroup_bpf_inherit(cgrp);
+	if (ret)
+		goto out_idr_free;
 
 	for (tcgrp = cgrp; tcgrp; tcgrp = cgroup_parent(tcgrp))
 		cgrp->ancestor_ids[tcgrp->level] = tcgrp->id;
@@ -5323,11 +5326,11 @@ static struct cgroup *cgroup_create(struct cgroup *parent)
 	 * subtree_control from the parent.  Each is configured manually.
 	 */
 
-	if (!cgroup_on_dfl(cgrp))
-		cgrp->subtree_control = cgroup_control(cgrp);
-
-	if (parent)
-		cgroup_bpf_inherit(parent);
+	if (cgroup_on_dfl(cgrp)) {
+		ret = psi_cgroup_alloc(cgrp);
+		if (ret)
+			goto out_idr_free;
+	}
 
 	cgroup_propagate_control(cgrp);
 
