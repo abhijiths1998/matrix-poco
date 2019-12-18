@@ -102,71 +102,7 @@ TRACE_EVENT(sched_enq_deq_task,
 #ifdef CONFIG_SCHED_WALT
 struct group_cpu_time;
 extern const char *task_event_names[];
-struct rq;
 
-TRACE_EVENT(walt_update_task_ravg,
-	TP_PROTO(struct task_struct *p, struct rq *rq, int evt,
-						u64 wallclock, u64 irqtime),
-	TP_ARGS(p, rq, evt, wallclock, irqtime),
-	TP_STRUCT__entry(
-		__array(	char,	comm,   TASK_COMM_LEN	)
-		__field(	pid_t,	pid			)
-		__field(	pid_t,	cur_pid			)
-		__field(	u64,	wallclock		)
-		__field(	u64,	mark_start		)
-		__field(	u64,	delta_m			)
-		__field(	u64,	win_start		)
-		__field(	u64,	delta			)
-		__field(	u64,	irqtime			)
-		__field(        int,    evt			)
-		__field(unsigned int,	demand			)
-		__field(unsigned int,	sum			)
-		__field(	 int,	cpu			)
-		__field(	u64,	cs			)
-		__field(	u64,	ps			)
-		__field(unsigned long,	util			)
-		__field(	u32,	curr_window		)
-		__field(	u32,	prev_window		)
-		__field(	u64,	nt_cs			)
-		__field(	u64,	nt_ps			)
-		__field(	u32,	active_windows		)
-	),
-	TP_fast_assign(
-		__entry->wallclock      = wallclock;
-		__entry->win_start      = rq->window_start;
-		__entry->delta          = (wallclock - rq->window_start);
-		__entry->evt            = evt;
-		__entry->cpu            = rq->cpu;
-		__entry->cur_pid        = rq->curr->pid;
-		memcpy(__entry->comm, p->comm, TASK_COMM_LEN);
-		__entry->pid            = p->pid;
-		__entry->mark_start     = p->ravg.mark_start;
-		__entry->delta_m        = (wallclock - p->ravg.mark_start);
-		__entry->demand         = p->ravg.demand;
-		__entry->sum            = p->ravg.sum;
-		__entry->irqtime        = irqtime;
-		__entry->cs             = rq->curr_runnable_sum;
-		__entry->ps             = rq->prev_runnable_sum;
-		__entry->util           = rq->prev_runnable_sum << SCHED_CAPACITY_SHIFT;
-		do_div(__entry->util, walt_ravg_window);
-		__entry->curr_window	= p->ravg.curr_window;
-		__entry->prev_window	= p->ravg.prev_window;
-		__entry->nt_cs		= rq->nt_curr_runnable_sum;
-		__entry->nt_ps		= rq->nt_prev_runnable_sum;
-		__entry->active_windows	= p->ravg.active_windows;
-	),
-	TP_printk("wc %llu ws %llu delta %llu event %d cpu %d cur_pid %d task %d (%s) ms %llu delta %llu demand %u sum %u irqtime %llu"
-		" cs %llu ps %llu util %lu cur_window %u prev_window %u active_wins %u"
-		, __entry->wallclock, __entry->win_start, __entry->delta,
-		__entry->evt, __entry->cpu, __entry->cur_pid,
-		__entry->pid, __entry->comm, __entry->mark_start,
-		__entry->delta_m, __entry->demand,
-		__entry->sum, __entry->irqtime,
-		__entry->cs, __entry->ps, __entry->util,
-		__entry->curr_window, __entry->prev_window,
-		  __entry->active_windows
-		)
-);
 #if defined(CREATE_TRACE_POINTS) && defined(CONFIG_SCHED_WALT)
 static inline void __window_data(u32 *dst, u32 *src)
 {
