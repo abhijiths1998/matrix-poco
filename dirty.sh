@@ -18,10 +18,5 @@ make -j$(nproc --all) O=out ARCH=arm64 \
                         CROSS_COMPILE_ARM32="${GCC32}"
 
 
-mv out/arch/arm64/boot/Image.gz ../anykernel/kernel/Image.gz
+mv out/arch/arm64/boot/Image.gz-dtb ../anykernel/
 
-rm -r ../anykernel/dtbs
-
-mv out/arch/arm64/boot/dts/qcom ../anykernel
-
-mv ../anykernel/qcom ../anykernel/dtbs
