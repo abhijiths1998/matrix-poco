@@ -20,4 +20,8 @@ make -j$(nproc --all) O=out ARCH=arm64 \
 
 mv out/arch/arm64/boot/Image.gz ../anykernel/kernel/Image.gz
 
+rm -r ../anykernel/dtbs
 
+mv out/arch/arm64/boot/dts/qcom ../anykernel
+
+mv ../anykernel/qcom ../anykernel/dtbs

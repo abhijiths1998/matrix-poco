@@ -121,3 +121,5 @@ kernel/configs/android-*.cfg
 
 #out
 out/
+
+testing.log
